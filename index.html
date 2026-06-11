@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOLTURES - Fazione RP</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font professionale da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <!-- Se il logo è nella cartella principale di GitHub, inserisci qui il suo nome esatto (es. logo.png) -->
+            <img src="logo.png" alt="VOLTURES LOGO" class="logo-img" onerror="this.src='https://placehold.co/50x50/111/fff?text=V'">
+            <span>VOLTURES</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#info">Informazioni</a></li>
+            <li><a href="#organigramma">Organigramma</a></li>
+            <li><a href="#radio">Canale Radio</a></li>
+            <li><a href="#zone">Zone</a></li>
+            <li><a href="#magazzino">Magazzino</a></li>
+        </ul>
+        <a href="https://discord.gg/cKw6YHXeU" target="_blank" class="btn-join">ENTRA IN FAZIONE</a>
+    </nav>
+
+    <!-- HEADER / HERO SECTION -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>VOLTURES</h1>
+            <p class="subtitle">Rispetto. Lealtà. Potere.</p>
+            <p class="description">Operiamo nell'ombra, dominiamo la luce. Benvenuto nel portale ufficiale della fazione.</p>
+            <a href="https://discord.gg/cKw6YHXeU" target="_blank" class="btn-cta">Fai Domanda per Entrare</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- SEZIONE INFORMAZIONI -->
+        <section id="info" class="section-card">
+            <h2><span class="gold-text">//</span> INFORMAZIONI</h2>
+            <p>I <strong>VOLTURES</strong> sono un'organizzazione gerarchica e disciplinata che punta al controllo strategico delle risorse e del territorio. Non siamo solo una fazione, siamo una famiglia legata da un codice d'onore ferreo. Chiunque tenti di ostacolarci scoprirà perché portiamo questo nome.</p>
+        </section>
+
+        <!-- SEZIONE ORGANIGRAMMA -->
+        <section id="organigramma" class="section-card">
+            <h2><span class="gold-text">//</span> ORGANIGRAMMA FAZIONE</h2>
+            <div class="grid-ranks">
+                <div class="rank-card boss">
+                    <h3>Capo Fazione</h3>
+                    <p class="rank-name">Boss / Leader</p>
+                </div>
+                <div class="rank-card underboss">
+                    <h3>Sotto Capo</h3>
+                    <p class="rank-name">Underboss</p>
+                </div>
+                <div class="rank-card manager">
+                    <h3>Consigliere / Gestore</h3>
+                    <p class="rank-name">Consigliere</p>
+                </div>
+                <div class="rank-card member">
+                    <h3>Membri Effettivi</h3>
+                    <p class="rank-name">Soldati / Operativi</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE CANALE RADIO -->
+        <section id="radio" class="section-card text-center">
+            <h2><span class="gold-text">//</span> CANALE RADIO</h2>
+            <div class="radio-box">
+                <p class="radio-frequency">Frequenza Criptata: <span class="glow-text">88.4 MHz</span></p>
+                <p class="radio-note">Nota: Mantenere la radio pulita durante le operazioni e utilizzare i codici identificativi stabiliti.</p>
+            </div>
+        </section>
+
+        <!-- SEZIONE ZONE DI RACCOLTA E PROCESSO -->
+        <section id="zone" class="section-card">
+            <h2><span class="gold-text">//</span> ZONE OPERATIVE</h2>
+            <div class="grid-zones">
+                <div class="zone-card">
+                    <h4>Punto di Raccolta</h4>
+                    <p><strong>Posizione:</strong> Controllare mappa interna (Discord)</p>
+                    <p class="zone-desc">Area ad alta vigilanza. Effettuare i carichi rapidamente e non sostare più del dovuto.</p>
+                </div>
+                <div class="zone-card process">
+                    <h4>Punto di Processo</h4>
+                    <p><strong>Posizione:</strong> Criptato / Riservato</p>
+                    <p class="zone-desc">Raffineria principale. Accesso consentito solo se autorizzati dai superiori in radio.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE CONTATORI MODIFICABILI (RACCOLTO / PROCESSATO) -->
+        <section id="magazzino" class="section-card">
+            <h2><span class="gold-text">//</span> CONTROLLO STRAORDINARIO MAGAZZINO</h2>
+            <p class="info-note">Gestisci le scorte in tempo reale. I dati inseriti rimarranno memorizzati in questo browser.</p>
+            
+            <div class="grid-counters">
+                <!-- Contatore Raccolto -->
+                <div class="counter-box">
+                    <h3>Materiale Raccolto</h3>
+                    <div class="counter-display" id="valore-raccolto">0</div>
+                    <div class="counter-buttons">
+                        <button onclick="modificaContatore('raccolto', -10)">-10</button>
+                        <button onclick="modificaContatore('raccolto', -1)">-1</button>
+                        <button onclick="modificaContatore('raccolto', 1)">+1</button>
+                        <button onclick="modificaContatore('raccolto', 10)">+10</button>
+                    </div>
+                </div>
+
+                <!-- Contatore Processato -->
+                <div class="counter-box">
+                    <h3>Materiale Processato</h3>
+                    <div class="counter-display" id="valore-processato">0</div>
+                    <div class="counter-buttons">
+                        <button onclick="modificaContatore('processato', -10)">-10</button>
+                        <button onclick="modificaContatore('processato', -1)">-1</button>
+                        <button onclick="modificaContatore('processato', 1)">+1</button>
+                        <button onclick="modificaContatore('processato', 10)">+10</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 VOLTURES RP. Tutti i diritti riservati. Sviluppato per fini di Roleplay.</p>
+    </footer>
+
+    <!-- SCRIPT JAVASCRIPT PER IL FUNZIONAMENTO DEI BOTTONI MODIFICABILI -->
+    <script>
+        // Carica i dati salvati all'apertura della pagina
+        document.addEventListener("DOMContentLoaded", function() {
+            if(localStorage.getItem("raccolto")) {
+                document.getElementById("valore-raccolto").innerText = localStorage.getItem("raccolto");
+            }
+            if(localStorage.getItem("processato")) {
+                document.getElementById("valore-processato").innerText = localStorage.getItem("processato");
+            }
+        });
+
+        // Funzione per aggiornare i numeri e salvarli
+        function modificaContatore(tipo, quantita) {
+            let elementoId = tipo === 'raccolto' ? 'valore-raccolto' : 'valore-processato';
+            let elemento = document.getElementById(elementoId);
+            let valoreAttuale = parseInt(elemento.innerText);
+            
+            let nuovoValore = valoreAttuale + quantita;
+            if (nuovoValore < 0) nuovoValore = 0; // Evita numeri negativi
+            
+            elemento.innerText = nuovoValore;
+            localStorage.setItem(tipo, nuovoValore); // Salva nel browser
+        }
+    </script>
+</body>
+</html>
