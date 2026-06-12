@@ -614,3 +614,101 @@ footer {
     font-size: 1rem;
     line-height: 1.7;
 }
+
+/* ==========================================
+   STILI DEDICATI AL NUOVO MAGAZZINO A BLOCCHI
+   ========================================== */
+.warehouse-lock-notice {
+    background-color: rgba(139, 0, 0, 0.15);
+    border: 1px solid #8b0000;
+    color: #ff9999;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.warehouse-logs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 1.5rem;
+}
+
+.warehouse-log-card {
+    background-color: #0b0c10;
+    border: 1px solid #2f3b4c;
+    padding: 1.2rem 1.5rem;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
+
+/* Tema differenziato per il Raccolto (Verde scuro/Smeraldo) */
+.warehouse-log-card.harvest-theme {
+    border-left: 4px solid #2ecc71;
+}
+.warehouse-log-card.harvest-theme h4 {
+    color: #2ecc71;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 0.6rem;
+    font-size: 1.1rem;
+}
+
+/* Tema differenziato per il Processo (Arancio/Fuoco) */
+.warehouse-log-card.process-theme {
+    border-left: 4px solid #e67e22;
+}
+.warehouse-log-card.process-theme h4 {
+    color: #e67e22;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 0.6rem;
+    font-size: 1.1rem;
+}
+
+.warehouse-log-card p {
+    font-size: 0.95rem;
+    color: #c5c6c7;
+    margin-bottom: 0.3rem;
+}
+
+.warehouse-log-card strong {
+    color: #fff;
+}
+
+/* Pulsanti di inserimento magazzino */
+.btn-warehouse-add {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+.btn-warehouse-add.btn-harvest {
+    background-color: #2ecc71;
+    color: #111;
+}
+.btn-warehouse-add.btn-harvest:hover {
+    background-color: #27ae60;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+}
+
+.btn-warehouse-add.btn-process {
+    background-color: #e67e22;
+    color: #fff;
+}
+.btn-warehouse-add.btn-process:hover {
+    background-color: #d35400;
+    box-shadow: 0 0 10px rgba(230, 126, 34, 0.4);
+}
+
+.user-control-zone {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
