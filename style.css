@@ -484,3 +484,97 @@ footer {
     border-top: 1px solid #1f2833;
     margin-top: 4rem;
 }
+
+/* ==========================================
+   CONTROLLI AGGIUNTIVI PER CREAZIONE DINAMICA
+   ========================================== */
+
+/* Area dei pulsanti "+ Aggiungi" sotto le griglie */
+.admin-control-zone {
+    display: none; /* Nascosto di base, visibile solo agli admin loggati */
+    margin-top: 1.5rem;
+    text-align: right;
+}
+
+.btn-admin-add {
+    background-color: transparent;
+    border: 2px dashed #c5a059;
+    color: #c5a059;
+    padding: 0.6rem 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.btn-admin-add:hover {
+    background-color: rgba(197, 160, 89, 0.1);
+    transform: scale(1.02);
+}
+
+/* Pulsantino di eliminazione rapida per singole Card (Rank o Zone) */
+.btn-delete-card {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.btn-delete-card:hover {
+    opacity: 1;
+}
+
+/* Scatole degli strumenti nel pannello inferiore */
+.admin-tool-box {
+    background-color: #0b0c10;
+    border: 1px solid #2f3b4c;
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin: 1.5rem auto;
+    max-width: 500px;
+    text-align: center;
+}
+
+.admin-tool-box h4 {
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+}
+
+/* Pulsante per eliminare un'intera sezione custom */
+.btn-delete-section {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    display: inline-block;
+    transition: background 0.2s;
+}
+
+.btn-delete-section:hover {
+    background-color: #b30000;
+}
+
+/* Area del testo modificabile libero delle nuove sezioni */
+.custom-section-content {
+    color: #c5c6c7;
+    min-height: 80px;
+    font-size: 1rem;
+    line-height: 1.7;
+}
