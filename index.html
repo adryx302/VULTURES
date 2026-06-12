@@ -39,7 +39,7 @@
 
         <section id="info" class="section-card">
             <h2><span class="gold-text">//</span> INFORMAZIONI</h2>
-            <p id="txt-info-p">I <strong>VOLTURES</strong> sono un'organizzazione gerarchica e disciplinata che punta al controllo strategico delle risorse e del territorio. Non siamo solo una fazione, siamo una famiglia legata da un codice d'onore ferreo. Chiunque tenti di ostacolarci scoprirà perché portiamo questo nome.</p>
+            <p id="txt-info-p">I <strong>VOLTURES</strong> sono un'organizzazione gerarchica e disciplinata che punta al controllo strategico delle risorse e del territorio. Non siamo solo una fazione, siamo una famiglia legata da un codice d'onore ferreo.</p>
         </section>
 
         <section id="organigramma" class="section-card">
@@ -69,7 +69,6 @@
 
         <section id="radio" class="section-card text-center">
             <h2><span class="gold-text">//</span> CANALE RADIO</h2>
-            
             <div id="dynamic-grid-radio" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
                 <div class="radio-box" style="position:relative; width: 100%;">
                     <p class="radio-frequency" id="txt-radio-freq-main">Frequenza Criptata: <span class="glow-text">88.4 MHz</span></p>
@@ -77,7 +76,6 @@
                     <button class="btn-delete-card" onclick="this.parentElement.remove()" style="display: none;">X</button>
                 </div>
             </div>
-
             <div class="admin-control-zone" style="display: none; margin-top: 1.5rem;">
                 <button class="btn-admin-add" onclick="aggiungiCardRadio()">+ Aggiungi Nuova Frequenza / Nota</button>
             </div>
@@ -103,30 +101,21 @@
         </section>
 
         <section id="magazzino" class="section-card">
-            <h2><span class="gold-text">//</span> CONTROLLO STRAORDINARIO MAGAZZINO</h2>
-            <p class="info-note">Gestisci le scorte in tempo reale. I dati inseriti rimarranno memorizzati in questo browser.</p>
+            <h2><span class="gold-text">//</span> REGISTRO LOGISTICA MAGAZZINO</h2>
+            <p class="info-note" style="margin-bottom: 20px;">Inserimento e tracciabilità dei carichi di fazione. Effettua il login utente in basso per aggiornare i dati.</p>
             
-            <div class="grid-counters">
-                <div class="counter-box">
-                    <h3>Materiale Raccolto</h3>
-                    <div class="counter-display" id="valore-raccolto">0</div>
-                    <div class="counter-buttons">
-                        <button onclick="modificaContatore('raccolto', -10)">-10</button>
-                        <button onclick="modificaContatore('raccolto', -1)">-1</button>
-                        <button onclick="modificaContatore('raccolto', 1)">+1</button>
-                        <button onclick="modificaContatore('raccolto', 10)">+10</button>
-                    </div>
+            <div id="magazzino-locked-msg" class="warehouse-lock-notice">
+                🔒 Inserisci la password USER corretta a fondo pagina per sbloccare e modificare i log di magazzino.
+            </div>
+
+            <div id="dynamic-warehouse-logs" class="warehouse-logs-container">
                 </div>
 
-                <div class="counter-box">
-                    <h3>Materiale Processato</h3>
-                    <div class="counter-display" id="valore-processato">0</div>
-                    <div class="counter-buttons">
-                        <button onclick="modificaContatore('processato', -10)">-10</button>
-                        <button onclick="modificaContatore('processato', -1)">-1</button>
-                        <button onclick="modificaContatore('processato', 1)">+1</button>
-                        <button onclick="modificaContatore('processato', 10)">+10</button>
-                    </div>
+            <div class="user-control-zone" id="warehouse-actions" style="display: none; margin-top: 20px; text-align: center; gap: 15px;">
+                <button class="btn-warehouse-add btn-harvest" onclick="aggiungiLogMagazzino('raccolto')">📦 + Nuovo Blocco Raccolto</button>
+                <button class="btn-warehouse-add btn-process" onclick="aggiungiLogMagazzino('processo')">🔥 + Nuovo Blocco Processo</button>
+                <div style="margin-top: 15px;">
+                    <button onclick="salvaTutto()" class="btn-admin" style="background-color: #28a745; color: white;">💾 SALVA REGISTRO MAGAZZINO</button>
                 </div>
             </div>
         </section>
@@ -137,15 +126,15 @@
 
     <section class="admin-login-section">
         <div id="login-form-wrapper">
-            <h3 style="color: #c5a059; font-family: 'Orbitron'; margin-bottom: 10px;">ACCESSO BACKOFFICE ADMIN</h3>
-            <input type="password" id="admin-password" class="admin-input" placeholder="Inserisci Password Fazione">
-            <button onclick="attivaLoginAdmin()" class="btn-admin">Accedi ed Edita</button>
+            <h3 style="color: #c5a059; font-family: 'Orbitron'; margin-bottom: 10px;">ACCESSO SISTEMA DI FAZIONE</h3>
+            <input type="password" id="admin-password" class="admin-input" placeholder="Inserisci Password (User o Admin)">
+            <button onclick="attivaLoginGenerale()" class="btn-admin">Accedi</button>
         </div>
         
         <div id="admin-actions-wrapper" style="display: none;">
-            <p style="color: #fff; margin-bottom: 15px;">Sei loggato come <strong>Admin</strong>. Clicca sui testi per modificarli o usa i controlli sotto per espandere il sito.</p>
+            <p style="color: #fff; margin-bottom: 15px;">Sessione attiva come: <strong id="session-type-label" class="gold-text">---</strong>.</p>
             
-            <div class="admin-tool-box">
+            <div id="exclusive-admin-tools" class="admin-tool-box" style="display: none;">
                 <h4>Crea una Nuova Sezione di Testo</h4>
                 <input type="text" id="new-sec-title" class="admin-input" placeholder="Titolo Sezione (es. Regolamento)">
                 <button onclick="creaNuovaSezioneDinamica()" class="btn-admin" style="background-color: #4a90e2; color: #fff;">Crea Sezione</button>
@@ -153,9 +142,8 @@
 
             <div style="margin-top: 20px;">
                 <button onclick="salvaTutto()" class="btn-admin" style="background-color: #28a745; color: white; font-size: 1.1rem; padding: 1rem 2rem;">💾 SALVA TUTTE LE MODIFICHE</button>
-                <button onclick="logoutAdmin()" class="btn-admin" style="background-color: #dc3545; color: white; margin-left: 10px;">Esci</button>
+                <button onclick="logoutGenerale()" class="btn-admin" style="background-color: #dc3545; color: white; margin-left: 10px;">Esci</button>
             </div>
-            <p style="color: #ffc107; font-size: 0.85rem; margin-top: 10px;">Ricorda di cliccare su "SALVA" dopo haber aggiunto righe o nuove sezioni, altrimenti andranno perse al ricaricamento!</p>
         </div>
     </section>
 
@@ -164,102 +152,78 @@
     </footer>
 
     <script>
-        const PASSWORD_ADMIN = "vultures2026"; 
+        const PWD_ADMIN = "vultures2026"; 
+        const PWD_USER = "vultures";
 
         document.addEventListener("DOMContentLoaded", function() {
-            // 1. Carica i contatori magazzino
-            if(localStorage.getItem("raccolto")) document.getElementById("valore-raccolto").innerText = localStorage.getItem("raccolto");
-            if(localStorage.getItem("processato")) document.getElementById("valore-processato").innerText = localStorage.getItem("processato");
+            // Ripristina lo stato strutturale dalle memorie locali
+            if(localStorage.getItem("html-grid-ranks")) document.getElementById("dynamic-grid-ranks").innerHTML = localStorage.getItem("html-grid-ranks");
+            if(localStorage.getItem("html-grid-radio")) document.getElementById("dynamic-grid-radio").innerHTML = localStorage.getItem("html-grid-radio");
+            if(localStorage.getItem("html-grid-zones")) document.getElementById("dynamic-grid-zones").innerHTML = localStorage.getItem("html-grid-zones");
+            if(localStorage.getItem("html-custom-sections")) document.getElementById("custom-sections-container").innerHTML = localStorage.getItem("html-custom-sections");
+            if(localStorage.getItem("html-nav-links")) document.getElementById("nav-links-container").innerHTML = localStorage.getItem("html-nav-links");
+            if(localStorage.getItem("html-warehouse-logs")) document.getElementById("dynamic-warehouse-logs").innerHTML = localStorage.getItem("html-warehouse-logs");
 
-            // 2. Ripristina lo stato strutturale salvato delle macro-aree
-            if(localStorage.getItem("html-grid-ranks")) {
-                document.getElementById("dynamic-grid-ranks").innerHTML = localStorage.getItem("html-grid-ranks");
-            }
-            if(localStorage.getItem("html-grid-radio")) {
-                document.getElementById("dynamic-grid-radio").innerHTML = localStorage.getItem("html-grid-radio");
-            }
-            if(localStorage.getItem("html-grid-zones")) {
-                document.getElementById("dynamic-grid-zones").innerHTML = localStorage.getItem("html-grid-zones");
-            }
-            if(localStorage.getItem("html-custom-sections")) {
-                document.getElementById("custom-sections-container").innerHTML = localStorage.getItem("html-custom-sections");
-            }
-            if(localStorage.getItem("html-nav-links")) {
-                document.getElementById("nav-links-container").innerHTML = localStorage.getItem("html-nav-links");
-            }
-
-            // 3. Ripristina i singoli testi statici salvati
+            // Ripristina i singoli testi statici
             const campiModificabili = document.querySelectorAll("[id^='txt-']");
             campiModificabili.forEach(el => {
                 let testoSalvato = localStorage.getItem(el.id);
-                if(testoSalvato) {
-                    el.innerHTML = testoSalvato;
-                }
+                if(testoSalvato) el.innerHTML = testoSalvato;
             });
 
-            // 4. Forza il blocco globale delle modifiche all'avvio
-            disattivaContentEditableSuTutti();
-
-            // 5. Controlla lo stato della sessione attiva
-            if(sessionStorage.getItem("isAdmin") === "true") {
+            // Gestione dei permessi di sessione corrente
+            let sessioneAttiva = sessionStorage.getItem("ruoloFazione");
+            if(sessioneAttiva === "admin") {
                 mostraInterfacciaAdmin();
+                mostraInterfacciaUser();
+            } else if (sessioneAttiva === "user") {
+                mostraInterfacciaUser();
             } else {
-                nascondiInterfacciaAdmin();
+                nascondiTuttoIniziale();
             }
         });
 
-        function modificaContatore(tipo, quantita) {
-            let elementoId = tipo === 'raccolto' ? 'valore-raccolto' : 'valore-processato';
-            let elemento = document.getElementById(elementoId);
-            let valoreAttuale = parseInt(elemento.innerText);
-            let nuovoValore = valoreAttuale + quantita;
-            if (nuovoValore < 0) nuovoValore = 0;
-            elemento.innerText = nuevoValore;
-            localStorage.setItem(tipo, nuevoValore);
-        }
-
-        // ACCESSO ADMIN
-        function attivaLoginAdmin() {
-            let passInserita = document.getElementById("admin-password").value;
-            if(passInserita === PASSWORD_ADMIN) {
-                sessionStorage.setItem("isAdmin", "true");
+        // AUTENTICAZIONE UNIFICATA
+        function attivaLoginGenerale() {
+            let pass = document.getElementById("admin-password").value;
+            if(pass === PWD_ADMIN) {
+                sessionStorage.setItem("ruoloFazione", "admin");
                 mostraInterfacciaAdmin();
-                alert("Accesso Admin Eseguito! Sezione canali radio e aggiunte sbloccate.");
+                mostraInterfacciaUser();
+                alert("Accesso AMMINISTRATORE Eseguito! Modifiche globali attive.");
+            } else if(pass === PWD_USER) {
+                sessionStorage.setItem("ruoloFazione", "user");
+                mostraInterfacciaUser();
+                alert("Accesso UTENTE Eseguito! Gestione magazzino sbloccata.");
             } else {
                 alert("Password errata.");
             }
         }
 
-        function mostraInterfacciaAdmin() {
+        function mostraInterfacciaUser() {
             document.getElementById("login-form-wrapper").style.display = "none";
             document.getElementById("admin-actions-wrapper").style.display = "block";
-            document.getElementById("admin-badge").style.display = "block";
-
-            // Mostra i pulsanti amministratore di inserimento
-            document.querySelectorAll(".admin-control-zone").forEach(zone => zone.style.display = "block");
+            document.getElementById("session-type-label").innerText = sessionStorage.getItem("ruoloFazione") === "admin" ? "Capo (Admin)" : "Membro (User)";
             
-            // Mostra i bottoni di cancellazione veloci "X"
-            document.querySelectorAll(".btn-delete-card, .btn-delete-section").forEach(btn => btn.style.display = "inline-block");
-
-            // Sblocca la modifica dei testi
-            attivaContentEditableSuTutti();
+            // Sblocca Magazzino
+            document.getElementById("magazzino-locked-msg").style.display = "none";
+            document.getElementById("warehouse-actions").style.display = "flex";
+            
+            // Rende editabili i campi del magazzino
+            document.querySelectorAll(".warehouse-log-card span, .warehouse-log-card strong").forEach(el => {
+                el.setAttribute("contenteditable", "true");
+                el.classList.add("editable-active");
+            });
+            document.querySelectorAll(".warehouse-log-card .btn-delete-card").forEach(btn => btn.style.display = "inline-block");
         }
 
-        function nascondiInterfacciaAdmin() {
-            document.getElementById("login-form-wrapper").style.display = "block";
-            document.getElementById("admin-actions-wrapper").style.display = "none";
-            document.getElementById("admin-badge").style.display = "none";
-
-            // Nascondi pulsanti di aggiunta e rimozione
-            document.querySelectorAll(".admin-control-zone").forEach(zone => zone.style.display = "none");
-            document.querySelectorAll(".btn-delete-card, .btn-delete-section").forEach(btn => btn.style.display = "none");
-
-            // Impedisci la scrittura
-            disattivaContentEditableSuTutti();
-        }
-
-        function attivaContentEditableSuTutti() {
-            // Seleziona selettivamente tutti gli elementi testuali editabili inclusi i blocchi radio fissi e dinamici
+        function mostraInterfacciaAdmin() {
+            document.getElementById("admin-badge").style.display = "block";
+            document.getElementById("exclusive-admin-tools").style.display = "block";
+            document.querySelectorAll(".admin-control-zone").forEach(zone => zone.style.display = "block");
+            document.querySelectorAll("#dynamic-grid-ranks .btn-delete-card, #dynamic-grid-radio .btn-delete-card, #dynamic-grid-zones .btn-delete-card, .btn-delete-section").forEach(btn => btn.style.display = "inline-block");
+            
+            // Attiva contenteditable generale
             const elementi = document.querySelectorAll("[id^='txt-'], .rank-card h3, .rank-name, .zone-card h4, .zone-card p, .custom-section-content, .radio-frequency, .radio-note");
             elementi.forEach(el => {
                 el.setAttribute("contenteditable", "true");
@@ -267,128 +231,116 @@
             });
         }
 
-        function disattivaContentEditableSuTutti() {
-            const elementi = document.querySelectorAll("[id^='txt-'], .rank-card h3, .rank-name, .zone-card h4, .zone-card p, .custom-section-content, .radio-frequency, .radio-note");
-            elementi.forEach(el => {
+        function nascondiTuttoIniziale() {
+            document.getElementById("login-form-wrapper").style.display = "block";
+            document.getElementById("admin-actions-wrapper").style.display = "none";
+            document.getElementById("admin-badge").style.display = "none";
+            document.getElementById("magazzino-locked-msg").style.display = "block";
+            document.getElementById("warehouse-actions").style.display = "none";
+            document.querySelectorAll(".admin-control-zone").forEach(zone => zone.style.display = "none");
+            
+            document.querySelectorAll("[contenteditable]").forEach(el => {
                 el.removeAttribute("contenteditable");
                 el.classList.remove("editable-active");
             });
         }
 
-        // AGGIUNTA RIGHE / CARD DINAMICHE
+        // AGGIUNTA BLOCCHI MAGAZZINO DINAMICI
+        function aggiungiLogMagazzino(tipo) {
+            let container = document.getElementById("dynamic-warehouse-logs");
+            let oggi = new Date().toLocaleDateString('it-IT');
+            let htmlBlocco = "";
+
+            if(tipo === 'raccolto') {
+                htmlBlocco = `
+                    <div class="warehouse-log-card harvest-theme" style="position:relative;">
+                        <h4>🟢 Attività: RACCOLTO MATERIALE</h4>
+                        <p><strong>Quantità:</strong> <span class="editable-active" contenteditable="true">0 unità</span></p>
+                        <p><strong>Svolto da:</strong> <span class="editable-active" contenteditable="true">Nome Operatore</span></p>
+                        <p><strong>Data:</strong> <span class="editable-active" contenteditable="true">${oggi}</span></p>
+                        <button class="btn-delete-card" onclick="this.parentElement.remove()">X</button>
+                    </div>
+                `;
+            } else if(tipo === 'processo') {
+                htmlBlocco = `
+                    <div class="warehouse-log-card process-theme" style="position:relative;">
+                        <h4>🔥 Attività: PROCESSO MATERIALE</h4>
+                        <p><strong>Processato:</strong> <span class="editable-active" contenteditable="true">0 unità</span></p>
+                        <p><strong>Svolto da:</strong> <span class="editable-active" contenteditable="true">Nome Operatore</span></p>
+                        <p><strong>Data:</strong> <span class="editable-active" contenteditable="true">${oggi}</span></p>
+                        <button class="btn-delete-card" onclick="this.parentElement.remove()">X</button>
+                    </div>
+                `;
+            }
+            container.insertAdjacentHTML('afterbegin', htmlBlocco); // Inserisce in alto come ultimo log
+        }
+
+        // AGGIUNTA COMPONENTI ADMIN (Ranks, Radio, Zone)
         function aggiungiCardRank() {
             let grid = document.getElementById("dynamic-grid-ranks");
-            let timestampId = "txt-rank-dyn-" + Date.now();
-            let nuovaCard = `
-                <div class="rank-card member" style="position:relative;">
-                    <h3>Nuovo Ruolo</h3>
-                    <p class="rank-name" id="${timestampId}">Modifica Nome Operativo</p>
-                    <button class="btn-delete-card" onclick="this.parentElement.remove()">X</button>
-                </div>
-            `;
+            let nuovaCard = `<div class="rank-card member" style="position:relative;"><h3>Nuovo Ruolo</h3><p class="rank-name" contenteditable="true">Modifica Nome</p><button class="btn-delete-card" onclick="this.parentElement.remove()">X</button></div>`;
             grid.insertAdjacentHTML('beforeend', nuovaCard);
-            attivaContentEditableSuTutti();
+            mostraInterfacciaAdmin();
         }
 
         function aggiungiCardRadio() {
             let grid = document.getElementById("dynamic-grid-radio");
-            let timestampId1 = "txt-radio-dyn-freq-" + Date.now();
-            let timestampId2 = "txt-radio-dyn-note-" + Date.now();
-            let nuovaCard = `
-                <div class="radio-box" style="position:relative; width: 100%;">
-                    <p class="radio-frequency" id="${timestampId1}">Frequenza Criptata: <span class="glow-text">00.0 MHz</span></p>
-                    <p class="radio-note" id="${timestampId2}">Nota: Inserisci qui le disposizioni radio.</p>
-                    <button class="btn-delete-card" onclick="this.parentElement.remove()">X</button>
-                </div>
-            `;
+            let nuovaCard = `<div class="radio-box" style="position:relative; width: 100%;"><p class="radio-frequency">Frequenza: <span class="glow-text" contenteditable="true">00.0 MHz</span></p><p class="radio-note" contenteditable="true">Nota: Configura indicazioni.</p><button class="btn-delete-card" onclick="this.parentElement.remove()">X</button></div>`;
             grid.insertAdjacentHTML('beforeend', nuovaCard);
-            attivaContentEditableSuTutti();
+            mostraInterfacciaAdmin();
         }
 
         function aggiungiCardZona() {
             let grid = document.getElementById("dynamic-grid-zones");
-            let timestampId1 = "txt-zona-dyn-pos-" + Date.now();
-            let timestampId2 = "txt-zona-dyn-desc-" + Date.now();
-            let nuovaCard = `
-                <div class="zone-card" style="position:relative;">
-                    <h4>Nuovo Punto Operativo</h4>
-                    <p id="${timestampId1}"><strong>Posizione:</strong> Inserisci Coordinate</p>
-                    <p class="zone-desc" id="${timestampId2}">Descrizione dei compiti logistici o di pfattuglia per la zona.</p>
-                    <button class="btn-delete-card" onclick="this.parentElement.remove()">X</button>
-                </div>
-            `;
+            let nuovaCard = `<div class="zone-card" style="position:relative;"><h4>Nuovo Punto</h4><p contenteditable="true"><strong>Posizione:</strong> Inserisci Coordinate</p><p class="zone-desc" contenteditable="true">Descrizione compiti.</p><button class="btn-delete-card" onclick="this.parentElement.remove()">X</button></div>`;
             grid.insertAdjacentHTML('beforeend', nuovaCard);
-            attivaContentEditableSuTutti();
+            mostraInterfacciaAdmin();
         }
 
-        // CREAZIONE SEZIONI PERSONALIZZATE DA ZERO
         function creaNuovaSezioneDinamica() {
             let titoloInput = document.getElementById("new-sec-title").value.trim();
-            if(!titoloInput) {
-                alert("Inserisci un titolo per la nuova sezione!");
-                return;
-            }
+            if(!titoloInput) return alert("Inserisci un titolo!");
             let sectionId = "sec-custom-" + Date.now();
-            let navContainer = document.getElementById("nav-links-container");
-            let sectionsContainer = document.getElementById("custom-sections-container");
-
-            let nuovaVoceNav = `<li><a href="#${sectionId}">${titoloInput}</a></li>`;
-            navContainer.insertAdjacentHTML('beforeend', nuovaVoceNav);
-
-            let nuovaSezioneHtml = `
-                <section id="${sectionId}" class="section-card custom-admin-section" style="position:relative;">
+            document.getElementById("nav-links-container").insertAdjacentHTML('beforeend', `<li><a href="#${sectionId}">${titoloInput}</a></li>`);
+            document.getElementById("custom-sections-container").insertAdjacentHTML('beforeend', `
+                <section id="${sectionId}" class="section-card" style="position:relative;">
                     <h2><span class="gold-text">//</span> ${titoloInput.toUpperCase()}</h2>
-                    <div class="custom-section-content" id="txt-custom-content-${Date.now()}">
-                        Scrivi qui il contenuto personalizzato della nuova sezione. Puoi usare testi normali o elenchi.
-                    </div>
-                    <button class="btn-delete-section" onclick="rimuoviSezioneCompleta('${sectionId}', this)">Elimina Intera Sezione</button>
+                    <div class="custom-section-content" contenteditable="true">Scrivi contenuto qui...</div>
+                    <button class="btn-delete-section" onclick="this.parentElement.remove(); document.querySelector('.nav-links a[href=\\'#${sectionId}\\']').parentElement.remove();">Elimina Sezione</button>
                 </section>
-            `;
-            sectionsContainer.insertAdjacentHTML('beforeend', nuovaSezioneHtml);
-            
+            `);
             document.getElementById("new-sec-title").value = "";
-            attivaContentEditableSuTutti();
-            alert(`Sezione "${titoloInput}" creata! Scorri in basso.`);
+            mostraInterfacciaAdmin();
         }
 
-        function rimuoviSezioneCompleta(sectionId, bottone) {
-            if(confirm("Sei sicuro di voler eliminare definitivamente questa sezione e la sua voce nel menu?")) {
-                bottone.parentElement.remove();
-                let linkNav = document.querySelector(`.nav-links a[href="#${sectionId}"]`);
-                if(linkNav) linkNav.parentElement.remove();
-            }
-        }
-
-        // GESTIONE DEL SALVATAGGIO GENERALE
+        // SALVATAGGIO GLOBALE PONDERATO
         function salvaTutto() {
-            disattivaContentEditableSuTutti();
-
-            // 1. Salva i testi singoli standard statici
-            const campiModificabili = document.querySelectorAll("[id^='txt-']");
-            campiModificabili.forEach(el => {
-                localStorage.setItem(el.id, el.innerHTML);
+            // Rimuove temporaneamente le cornici grafiche di editing per pulire l'HTML prima del salvataggio
+            document.querySelectorAll("[contenteditable]").forEach(el => {
+                el.removeAttribute("contenteditable");
+                el.classList.remove("editable-active");
             });
 
-            // 2. Salva l'intera struttura interna dei moduli pulita
-            let htmlRanks = document.getElementById("dynamic-grid-ranks").innerHTML;
-            let htmlRadio = document.getElementById("dynamic-grid-radio").innerHTML;
-            let htmlZones = document.getElementById("dynamic-grid-zones").innerHTML;
-            let htmlCustomSections = document.getElementById("custom-sections-container").innerHTML;
-            let htmlNavLinks = document.getElementById("nav-links-container").innerHTML;
+            // 1. Salva testi statici
+            document.querySelectorAll("[id^='txt-']").forEach(el => localStorage.setItem(el.id, el.innerHTML));
 
-            localStorage.setItem("html-grid-ranks", htmlRanks);
-            localStorage.setItem("html-grid-radio", htmlRadio);
-            localStorage.setItem("html-grid-zones", htmlZones);
-            localStorage.setItem("html-custom-sections", htmlCustomSections);
-            localStorage.setItem("html-nav-links", htmlNavLinks);
+            // 2. Salva macro-strutture strutturali
+            localStorage.setItem("html-grid-ranks", document.getElementById("dynamic-grid-ranks").innerHTML);
+            localStorage.setItem("html-grid-radio", document.getElementById("dynamic-grid-radio").innerHTML);
+            localStorage.setItem("html-grid-zones", document.getElementById("dynamic-grid-zones").innerHTML);
+            localStorage.setItem("html-custom-sections", document.getElementById("custom-sections-container").innerHTML);
+            localStorage.setItem("html-nav-links", document.getElementById("nav-links-container").innerHTML);
+            localStorage.setItem("html-warehouse-logs", document.getElementById("dynamic-warehouse-logs").innerHTML);
 
-            attivaContentEditableSuTutti();
+            // Ripristina l'interfaccia corretta in base al login corrente
+            if(sessionStorage.getItem("ruoloFazione") === "admin") { mostraInterfacciaAdmin(); mostraInterfacciaUser(); }
+            else if(sessionStorage.getItem("ruoloFazione") === "user") { mostraInterfacciaUser(); }
 
-            alert("Sito Aggiornato! Struttura Canale Radio salvata e sincronizzata correttamente.");
+            alert("💾 Database di Fazione e Registro Magazzino Aggiornati con Successo!");
         }
 
-        function logoutAdmin() {
-            sessionStorage.removeItem("isAdmin");
+        function logoutGenerale() {
+            sessionStorage.clear();
             window.location.reload();
         }
     </script>
