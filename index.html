@@ -5,15 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VULTURES - Fazione RP</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Font professionale da Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Stili rapidi per la gestione Admin (puoi spostarli nel tuo style.css) */
+        .admin-login-section {
+            background: #111;
+            padding: 20px;
+            border-top: 2px solid #b59410;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .admin-input {
+            padding: 10px;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            margin: 5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .btn-admin {
+            padding: 10px 20px;
+            background: #b59410;
+            border: none;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-admin:hover {
+            background: #fff;
+        }
+        .editable-active {
+            border: 1px dashed #b59410 !important;
+            background: rgba(181, 148, 16, 0.1);
+            padding: 5px;
+        }
+        .admin-badge {
+            display: none;
+            background: red;
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 9999;
+            font-family: 'Orbitron', sans-serif;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- BARRA DI NAVIGAZIONE -->
+    <div id="admin-badge" class="admin-badge">MODALITÀ EDITOR ATTIVA</div>
+
     <nav class="navbar">
         <div class="nav-logo">
-            <!-- Se il logo è nella cartella principale di GitHub, inserisci qui il suo nome esatto (es. logo.png) -->
             <img src="logo.png" alt="VULTURES LOGO" class="logo-img" onerror="this.src='https://placehold.co/50x50/111/fff?text=V'">
             <span>VULTURES</span>
         </div>
@@ -27,80 +73,73 @@
         <a href="https://discord.gg/cKw6YHXeU" target="_blank" class="btn-join">ENTRA IN FAZIONE</a>
     </nav>
 
-    <!-- HEADER / HERO SECTION -->
     <header class="hero">
         <div class="hero-content">
-            <h1>VULTURES</h1>
-            <p class="subtitle">Rispetto. Lealtà. Potere.</p>
-            <p class="description">Operiamo nell'ombra, dominiamo la luce. Benvenuto nel portale ufficiale della fazione.</p>
+            <h1 id="txt-hero-title">VULTURES</h1>
+            <p class="subtitle" id="txt-hero-subtitle">Rispetto. Lealtà. Potere.</p>
+            <p class="description" id="txt-hero-desc">Operiamo nell'ombra, dominiamo la luce. Benvenuto nel portale ufficiale della fazione.</p>
             <a href="https://discord.gg/cKw6YHXeU" target="_blank" class="btn-cta">Fai Domanda per Entrare</a>
         </div>
     </header>
 
     <div class="container">
 
-        <!-- SEZIONE INFORMAZIONI -->
         <section id="info" class="section-card">
             <h2><span class="gold-text">//</span> INFORMAZIONI</h2>
-            <p>I <strong>VOLTURES</strong> sono un'organizzazione gerarchica e disciplinata che punta al controllo strategico delle risorse e del territorio. Non siamo solo una fazione, siamo una famiglia legata da un codice d'onore ferreo. Chiunque tenti di ostacolarci scoprirà perché portiamo questo nome.</p>
+            <p id="txt-info-p">I <strong>VOLTURES</strong> sono un'organizzazione gerarchica e disciplinata che punta al controllo strategico delle risorse e del territorio. Non siamo solo una fazione, siamo una famiglia legata da un codice d'onore ferreo. Chiunque tenti di ostacolarci scoprirà perché portiamo questo nome.</p>
         </section>
 
-        <!-- SEZIONE ORGANIGRAMMA -->
         <section id="organigramma" class="section-card">
             <h2><span class="gold-text">//</span> ORGANIGRAMMA FAZIONE</h2>
             <div class="grid-ranks">
                 <div class="rank-card boss">
                     <h3>Capo Fazione</h3>
-                    <p class="rank-name">Boss / Leader</p>
+                    <p class="rank-name" id="txt-rank-boss">Boss / Leader</p>
                 </div>
                 <div class="rank-card underboss">
                     <h3>Sotto Capo</h3>
-                    <p class="rank-name">Underboss</p>
+                    <p class="rank-name" id="txt-rank-underboss">Underboss</p>
                 </div>
                 <div class="rank-card manager">
                     <h3>Consigliere / Gestore</h3>
-                    <p class="rank-name">Consigliere</p>
+                    <p class="rank-name" id="txt-rank-consigliere">Consigliere</p>
                 </div>
                 <div class="rank-card member">
                     <h3>Membri Effettivi</h3>
-                    <p class="rank-name">Soldati / Operativi</p>
+                    <p class="rank-name" id="txt-rank-soldati">Soldati / Operativi</p>
                 </div>
             </div>
         </section>
 
-        <!-- SEZIONE CANALE RADIO -->
         <section id="radio" class="section-card text-center">
             <h2><span class="gold-text">//</span> CANALE RADIO</h2>
             <div class="radio-box">
-                <p class="radio-frequency">Frequenza Criptata: <span class="glow-text">88.4 MHz</span></p>
-                <p class="radio-note">Nota: Mantenere la radio pulita durante le operazioni.</p>
+                <p class="radio-frequency">Frequenza Criptata: <span class="glow-text" id="txt-radio-freq">88.4 MHz</span></p>
+                <p class="radio-note" id="txt-radio-note">Nota: Mantenere la radio pulita durante le operazioni.</p>
             </div>
         </section>
 
-        <!-- SEZIONE ZONE DI RACCOLTA E PROCESSO -->
         <section id="zone" class="section-card">
             <h2><span class="gold-text">//</span> ZONE OPERATIVE</h2>
             <div class="grid-zones">
                 <div class="zone-card">
                     <h4>Punto di Raccolta</h4>
-                    <p><strong>Posizione:</strong> Controllare mappa interna (Discord)</p>
-                    <p class="zone-desc">Area ad alta vigilanza. Effettuare i carichi rapidamente e non sostare più del dovuto.</p>
+                    <p id="txt-zona1-pos"><strong>Posizione:</strong> Controllare mappa interna (Discord)</p>
+                    <p class="zone-desc" id="txt-zona1-desc">Area ad alta vigilanza. Effettuare i carichi rapidamente e non sostare più del dovuto.</p>
                 </div>
                 <div class="zone-card process">
                     <h4>Punto di Processo</h4>
-                    <p><strong>Posizione:</strong> Criptato / Riservato</p>
-                    <p class="zone-desc">Raffineria principale. Accesso consentito solo se autorizzati dai superiori in radio.</p>
+                    <p id="txt-zona2-pos"><strong>Posizione:</strong> Criptato / Riservato</p>
+                    <p class="zone-desc" id="txt-zona2-desc">Raffineria principale. Accesso consentito solo se autorizzati dai superiori in radio.</p>
                 </div>
             </div>
         </section>
 
-        <!-- SEZIONE CONTATORI MODIFICABILI (RACCOLTO / PROCESSATO) -->
         <section id="magazzino" class="section-card">
             <h2><span class="gold-text">//</span> CONTROLLO STRAORDINARIO MAGAZZINO</h2>
             <p class="info-note">Gestisci le scorte in tempo reale. I dati inseriti rimarranno memorizzati in questo browser.</p>
             
             <div class="grid-counters">
-                <!-- Contatore Raccolto -->
                 <div class="counter-box">
                     <h3>Materiale Raccolto</h3>
                     <div class="counter-display" id="valore-raccolto">0</div>
@@ -112,7 +151,6 @@
                     </div>
                 </div>
 
-                <!-- Contatore Processato -->
                 <div class="counter-box">
                     <h3>Materiale Processato</h3>
                     <div class="counter-display" id="valore-processato">0</div>
@@ -128,34 +166,114 @@
 
     </div>
 
-    <!-- FOOTER -->
+    <section class="admin-login-section">
+        <div id="login-form-wrapper">
+            <h3 style="color: #b59410; font-family: 'Orbitron'; margin-bottom: 10px;">ACCESSO BACKOFFICE ADMIN</h3>
+            <input type="password" id="admin-password" class="admin-input" placeholder="Inserisci Password Fazione">
+            <button onclick="attivaLoginAdmin()" class="btn-admin">Accedi ed Edita</button>
+        </div>
+        <div id="admin-actions-wrapper" style="display: none;">
+            <p style="color: #fff; margin-bottom: 10px;">Sei loggato come <strong>Admin</strong>. Clicca sui testi della pagina per modificarli direttamente!</p>
+            <button onclick="salvaTestiModificati()" class="btn-admin" style="background-color: #28a745; color: white;">SALVA MODIFICHE</button>
+            <button onclick="logoutAdmin()" class="btn-admin" style="background-color: #dc3545; color: white; margin-left: 10px;">Esci</button>
+        </div>
+    </section>
+
     <footer>
         <p>&copy; 2026 VOLTURES RP. Tutti i diritti riservati. Sviluppato per fini di Roleplay.</p>
     </footer>
 
-    <!-- SCRIPT JAVASCRIPT PER IL FUNZIONAMENTO DEI BOTTONI MODIFICABILI -->
     <script>
-        // Carica i dati salvati all'apertura della pagina
+        // PASSWORD DI ACCESSO (Modificala qui sotto con quella che preferisci)
+        const PASSWORD_ADMIN = "vultures2026"; 
+
+        // Elenco di ID dei testi che l'admin può modificare sulla pagina
+        const campiModificabili = [
+            "txt-hero-title", "txt-hero-subtitle", "txt-hero-desc",
+            "txt-info-p", "txt-rank-boss", "txt-rank-underboss", 
+            "txt-rank-consigliere", "txt-rank-soldati", "txt-radio-freq", 
+            "txt-radio-note", "txt-zona1-pos", "txt-zona1-desc", 
+            "txt-zona2-pos", "txt-zona2-desc"
+        ];
+
         document.addEventListener("DOMContentLoaded", function() {
+            // 1. Carica i contatori magazzino
             if(localStorage.getItem("raccolto")) {
                 document.getElementById("valore-raccolto").innerText = localStorage.getItem("raccolto");
             }
             if(localStorage.getItem("processato")) {
                 document.getElementById("valore-processato").innerText = localStorage.getItem("processato");
             }
+
+            // 2. Carica i testi personalizzati salvati dall'admin
+            campiModificabili.forEach(id => {
+                let testoSalvato = localStorage.getItem(id);
+                if(testoSalvato) {
+                    document.getElementById(id).innerHTML = testoSalvato;
+                }
+            });
+
+            // 3. Controlla se la sessione admin è già attiva nel browser
+            if(sessionStorage.getItem("isAdmin") === "true") {
+                mostraInterfacciaAdmin();
+            }
         });
 
-        // Funzione per aggiornare i numeri e salvarli
+        // Funzione Contatori
         function modificaContatore(tipo, quantita) {
             let elementoId = tipo === 'raccolto' ? 'valore-raccolto' : 'valore-processato';
             let elemento = document.getElementById(elementoId);
             let valoreAttuale = parseInt(elemento.innerText);
             
             let nuovoValore = valoreAttuale + quantita;
-            if (nuovoValore < 0) nuovoValore = 0; // Evita numeri negativi
+            if (nuovoValore < 0) nuovoValore = 0;
             
-            elemento.innerText = nuovoValore;
-            localStorage.setItem(tipo, nuovoValore); // Salva nel browser
+            elemento.innerText = nuevoValore;
+            localStorage.setItem(tipo, nuevoValore);
+        }
+
+        // FUNZIONI GESTIONE ADMIN
+        function attivaLoginAdmin() {
+            let passInserita = document.getElementById("admin-password").value;
+            if(passInserita === PASSWORD_ADMIN) {
+                sessionStorage.setItem("isAdmin", "true");
+                mostraInterfacciaAdmin();
+                alert("Accesso Admin Eseguito! Ora puoi modificare i testi cliccandoci sopra.");
+            } else {
+                alert("Password errata. Accesso negato.");
+            }
+        }
+
+        function mostraInterfacciaAdmin() {
+            document.getElementById("login-form-wrapper").style.display = "none";
+            document.getElementById("admin-actions-wrapper").style.display = "block";
+            document.getElementById("admin-badge").style.display = "block";
+
+            // Rendi i testi editabili
+            campiModificabili.forEach(id => {
+                let el = document.getElementById(id);
+                if(el) {
+                    el.setAttribute("contenteditable", "true");
+                    el.classList.add("editable-active");
+                }
+            });
+        }
+
+        function salvaTestiModificati() {
+            // Prendi il testo attuale dentro i blocchi e salvalo nel localStorage
+            campiModificabili.forEach(id => {
+                let el = document.getElementById(id);
+                if(el) {
+                    localStorage.setItem(id, el.innerHTML);
+                }
+            });
+            alert("Tutti i testi sono stati salvati con successo nel browser!");
+        }
+
+        function logoutAdmin() {
+            sessionStorage.removeItem("isAdmin");
+            alert("Uscita effettuata. Ricarico la pagina.");
+            window.location.reload();
         }
     </script>
 </body>
