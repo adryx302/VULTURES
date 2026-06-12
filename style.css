@@ -189,7 +189,9 @@ body {
    ========================================== */
 .grid-ranks {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    /* auto-fill distribuisce meglio le card se sono poche, 
+       evitando che si allarghino troppo su schermi giganti */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
     margin-top: 1rem;
 }
@@ -201,24 +203,41 @@ body {
     text-align: center;
     border: 1px solid #2f3b4c;
     position: relative;
+    /* Transizione fluida per un feedback visivo moderno */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Effetto hover per dare dinamicità alle card */
+.rank-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .rank-card h3 {
     color: #fff;
+    font-size: 1.1rem;
     margin-bottom: 0.5rem;
 }
 
-.rank-card.creator { border-top: 3px solid #c5a059; }
-.rank-card.boss { border-top: 3px solid #c5a059; }
+/* Bordi superiori colorati per gerarchia */
+.rank-card.creator   { border-top: 3px solid #c5a059; }
+.rank-card.boss      { border-top: 3px solid #c5a059; }
 .rank-card.underboss { border-top: 3px solid #8b0000; }
-.rank-card.manager { border-top: 3px solid #4a90e2; }
-.rank-card.member { border-top: 3px solid #2ecc71; }
+.rank-card.manager   { border-top: 3px solid #4a90e2; }
+.rank-card.member    { border-top: 3px solid #2ecc71; }
 
 .rank-name {
     font-size: 0.85rem;
     text-transform: uppercase;
     color: #959799;
+    letter-spacing: 0.5px; /* Migliora la leggibilità del testo in uppercase */
 }
+
+/* Selettori specifici per i testi (ex ID) se volessi colorare 
+   il testo interno in modo specifico in futuro */
+.txt-rank-creator   { color: #c5a059; font-weight: bold; }
+.txt-rank-boss      { color: #c5a059; font-weight: bold; }
+.txt-rank-underboss { color: #cf3a3a; } /* Un rosso leggermente più acceso per il testo */
 
 /* ==========================================
    CANALE RADIO
