@@ -208,6 +208,7 @@ body {
     margin-bottom: 0.5rem;
 }
 
+.rank-card.creator { border-top: 3px solid #c5a059; }
 .rank-card.boss { border-top: 3px solid #c5a059; }
 .rank-card.underboss { border-top: 3px solid #8b0000; }
 .rank-card.manager { border-top: 3px solid #4a90e2; }
