@@ -6,53 +6,6 @@
     <title>VULTURES - Fazione RP</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
-    <style>
-        /* Stili rapidi per la gestione Admin (puoi spostarli nel tuo style.css) */
-        .admin-login-section {
-            background: #111;
-            padding: 20px;
-            border-top: 2px solid #b59410;
-            text-align: center;
-            margin-top: 50px;
-        }
-        .admin-input {
-            padding: 10px;
-            background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            margin: 5px;
-            font-family: 'Montserrat', sans-serif;
-        }
-        .btn-admin {
-            padding: 10px 20px;
-            background: #b59410;
-            border: none;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-admin:hover {
-            background: #fff;
-        }
-        .editable-active {
-            border: 1px dashed #b59410 !important;
-            background: rgba(181, 148, 16, 0.1);
-            padding: 5px;
-        }
-        .admin-badge {
-            display: none;
-            background: red;
-            color: white;
-            padding: 5px 10px;
-            font-weight: bold;
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            z-index: 9999;
-            font-family: 'Orbitron', sans-serif;
-        }
-    </style>
 </head>
 <body>
 
@@ -63,7 +16,7 @@
             <img src="logo.png" alt="VULTURES LOGO" class="logo-img" onerror="this.src='https://placehold.co/50x50/111/fff?text=V'">
             <span>VULTURES</span>
         </div>
-        <ul class="nav-links">
+        <ul class="nav-links" id="nav-links-container">
             <li><a href="#info">Informazioni</a></li>
             <li><a href="#organigramma">Organigramma</a></li>
             <li><a href="#radio">Canale Radio</a></li>
@@ -82,7 +35,7 @@
         </div>
     </header>
 
-    <div class="container">
+    <div class="container" id="main-content-container">
 
         <section id="info" class="section-card">
             <h2><span class="gold-text">//</span> INFORMAZIONI</h2>
@@ -91,7 +44,7 @@
 
         <section id="organigramma" class="section-card">
             <h2><span class="gold-text">//</span> ORGANIGRAMMA FAZIONE</h2>
-            <div class="grid-ranks">
+            <div class="grid-ranks" id="dynamic-grid-ranks">
                 <div class="rank-card boss">
                     <h3>Capo Fazione</h3>
                     <p class="rank-name" id="txt-rank-boss">Boss / Leader</p>
@@ -109,6 +62,9 @@
                     <p class="rank-name" id="txt-rank-soldati">Soldati / Operativi</p>
                 </div>
             </div>
+            <div class="admin-control-zone">
+                <button class="btn-admin-add" onclick="aggiungiCardRank()">+ Aggiungi Grado / Ruolo</button>
+            </div>
         </section>
 
         <section id="radio" class="section-card text-center">
@@ -121,7 +77,7 @@
 
         <section id="zone" class="section-card">
             <h2><span class="gold-text">//</span> ZONE OPERATIVE</h2>
-            <div class="grid-zones">
+            <div class="grid-zones" id="dynamic-grid-zones">
                 <div class="zone-card">
                     <h4>Punto di Raccolta</h4>
                     <p id="txt-zona1-pos"><strong>Posizione:</strong> Controllare mappa interna (Discord)</p>
@@ -132,6 +88,9 @@
                     <p id="txt-zona2-pos"><strong>Posizione:</strong> Criptato / Riservato</p>
                     <p class="zone-desc" id="txt-zona2-desc">Raffineria principale. Accesso consentito solo se autorizzati dai superiori in radio.</p>
                 </div>
+            </div>
+            <div class="admin-control-zone">
+                <button class="btn-admin-add" onclick="aggiungiCardZona()">+ Aggiungi Nuova Zona</button>
             </div>
         </section>
 
@@ -164,18 +123,31 @@
             </div>
         </section>
 
+        <div id="custom-sections-container"></div>
+
     </div>
 
     <section class="admin-login-section">
         <div id="login-form-wrapper">
-            <h3 style="color: #b59410; font-family: 'Orbitron'; margin-bottom: 10px;">ACCESSO BACKOFFICE ADMIN</h3>
+            <h3 style="color: #c5a059; font-family: 'Orbitron'; margin-bottom: 10px;">ACCESSO BACKOFFICE ADMIN</h3>
             <input type="password" id="admin-password" class="admin-input" placeholder="Inserisci Password Fazione">
             <button onclick="attivaLoginAdmin()" class="btn-admin">Accedi ed Edita</button>
         </div>
+        
         <div id="admin-actions-wrapper" style="display: none;">
-            <p style="color: #fff; margin-bottom: 10px;">Sei loggato come <strong>Admin</strong>. Clicca sui testi della pagina per modificarli direttamente!</p>
-            <button onclick="salvaTestiModificati()" class="btn-admin" style="background-color: #28a745; color: white;">SALVA MODIFICHE</button>
-            <button onclick="logoutAdmin()" class="btn-admin" style="background-color: #dc3545; color: white; margin-left: 10px;">Esci</button>
+            <p style="color: #fff; margin-bottom: 15px;">Sei loggato come <strong>Admin</strong>. Clicca sui testi per modificarli o usa i controlli sotto per espandere il sito.</p>
+            
+            <div class="admin-tool-box">
+                <h4>Crea una Nuova Sezione di Testo</h4>
+                <input type="text" id="new-sec-title" class="admin-input" placeholder="Titolo Sezione (es. Regolamento)">
+                <button onclick="creaNuovaSezioneDinamica()" class="btn-admin" style="background-color: #4a90e2; color: #fff;">Crea Sezione</button>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button onclick="salvaTutto()" class="btn-admin" style="background-color: #28a745; color: white; font-size: 1.1rem; padding: 1rem 2rem;">💾 SALVA TUTTE LE MODIFICHE</button>
+                <button onclick="logoutAdmin()" class="btn-admin" style="background-color: #dc3545; color: white; margin-left: 10px;">Esci</button>
+            </div>
+            <p style="color: #ffc107; font-size: 0.85rem; margin-top: 10px;">Ricorda di cliccare su "SALVA" dopo aver aggiunto righe o nuove sezioni, altrimenti andranno perse al ricaricamento!</p>
         </div>
     </section>
 
@@ -184,63 +156,61 @@
     </footer>
 
     <script>
-        // PASSWORD DI ACCESSO (Modificala qui sotto con quella che preferisci)
         const PASSWORD_ADMIN = "vultures2026"; 
-
-        // Elenco di ID dei testi che l'admin può modificare sulla pagina
-        const campiModificabili = [
-            "txt-hero-title", "txt-hero-subtitle", "txt-hero-desc",
-            "txt-info-p", "txt-rank-boss", "txt-rank-underboss", 
-            "txt-rank-consigliere", "txt-rank-soldati", "txt-radio-freq", 
-            "txt-radio-note", "txt-zona1-pos", "txt-zona1-desc", 
-            "txt-zona2-pos", "txt-zona2-desc"
-        ];
 
         document.addEventListener("DOMContentLoaded", function() {
             // 1. Carica i contatori magazzino
-            if(localStorage.getItem("raccolto")) {
-                document.getElementById("valore-raccolto").innerText = localStorage.getItem("raccolto");
+            if(localStorage.getItem("raccolto")) document.getElementById("valore-raccolto").innerText = localStorage.getItem("raccolto");
+            if(localStorage.getItem("processato")) document.getElementById("valore-processato").innerText = localStorage.getItem("processato");
+
+            // 2. Ripristina lo stato strutturale salvato delle macro-aree modificate (Grandi Grids e Sezioni Custom)
+            if(localStorage.getItem("html-grid-ranks")) {
+                document.getElementById("dynamic-grid-ranks").innerHTML = localStorage.getItem("html-grid-ranks");
             }
-            if(localStorage.getItem("processato")) {
-                document.getElementById("valore-processato").innerText = localStorage.getItem("processato");
+            if(localStorage.getItem("html-grid-zones")) {
+                document.getElementById("dynamic-grid-zones").innerHTML = localStorage.getItem("html-grid-zones");
+            }
+            if(localStorage.getItem("html-custom-sections")) {
+                document.getElementById("custom-sections-container").innerHTML = localStorage.getItem("html-custom-sections");
+            }
+            if(localStorage.getItem("html-nav-links")) {
+                document.getElementById("nav-links-container").innerHTML = localStorage.getItem("html-nav-links");
             }
 
-            // 2. Carica i testi personalizzati salvati dall'admin
-            campiModificabili.forEach(id => {
-                let testoSalvato = localStorage.getItem(id);
+            // 3. Ripristina i testi editabili standard singoli
+            const campiModificabili = document.querySelectorAll("[id^='txt-']");
+            campiModificabili.forEach(el => {
+                let testoSalvato = localStorage.getItem(el.id);
                 if(testoSalvato) {
-                    document.getElementById(id).innerHTML = testoSalvato;
+                    el.innerHTML = testoSalvato;
                 }
             });
 
-            // 3. Controlla se la sessione admin è già attiva nel browser
+            // 4. Se la sessione admin è già attiva, sblocca i controlli
             if(sessionStorage.getItem("isAdmin") === "true") {
                 mostraInterfacciaAdmin();
             }
         });
 
-        // Funzione Contatori
         function modificaContatore(tipo, quantita) {
             let elementoId = tipo === 'raccolto' ? 'valore-raccolto' : 'valore-processato';
             let elemento = document.getElementById(elementoId);
             let valoreAttuale = parseInt(elemento.innerText);
-            
             let nuovoValore = valoreAttuale + quantita;
             if (nuovoValore < 0) nuovoValore = 0;
-            
             elemento.innerText = nuevoValore;
             localStorage.setItem(tipo, nuevoValore);
         }
 
-        // FUNZIONI GESTIONE ADMIN
+        // ACCESSO ADMIN
         function attivaLoginAdmin() {
             let passInserita = document.getElementById("admin-password").value;
             if(passInserita === PASSWORD_ADMIN) {
                 sessionStorage.setItem("isAdmin", "true");
                 mostraInterfacciaAdmin();
-                alert("Accesso Admin Eseguito! Ora puoi modificare i testi cliccandoci sopra.");
+                alert("Accesso Admin Eseguito! Sbloccati i comandi di aggiunta righe e sezioni.");
             } else {
-                alert("Password errata. Accesso negato.");
+                alert("Password errata.");
             }
         }
 
@@ -249,30 +219,120 @@
             document.getElementById("admin-actions-wrapper").style.display = "block";
             document.getElementById("admin-badge").style.display = "block";
 
-            // Rendi i testi editabili
-            campiModificabili.forEach(id => {
-                let el = document.getElementById(id);
-                if(el) {
-                    el.setAttribute("contenteditable", "true");
-                    el.classList.add("editable-active");
-                }
+            // Mostra i pulsanti per aggiungere righe/card
+            document.querySelectorAll(".admin-control-zone").forEach(zone => zone.style.display = "block");
+
+            // Rendi attivi tutti i tag di testo modificabili presenti
+            attivaContentEditableSuTutti();
+        }
+
+        function attivaContentEditableSuTutti() {
+            // Seleziona tutti gli elementi di testo dinamici o interni alle card
+            const elementi = document.querySelectorAll("[id^='txt-'], .rank-card h3, .rank-name, .zone-card h4, .zone-card p, .custom-section-content");
+            elementi.forEach(el => {
+                el.setAttribute("contenteditable", "true");
+                el.classList.add("editable-active");
             });
         }
 
-        function salvaTestiModificati() {
-            // Prendi il testo attuale dentro i blocchi e salvalo nel localStorage
-            campiModificabili.forEach(id => {
-                let el = document.getElementById(id);
-                if(el) {
-                    localStorage.setItem(id, el.innerHTML);
-                }
+        // AGGIUNTA RIGHE / CARD NELLE SEZIONI ESISTENTI
+        function aggiungiCardRank() {
+            let grid = document.getElementById("dynamic-grid-ranks");
+            let timestampId = "txt-rank-dyn-" + Date.now();
+            let nuovaCard = `
+                <div class="rank-card member" style="position:relative;">
+                    <h3>Nuovo Ruolo</h3>
+                    <p class="rank-name" id="${timestampId}">Modifica Nome Operativo</p>
+                    <button class="btn-delete-card" onclick="this.parentElement.remove()">X</button>
+                </div>
+            `;
+            grid.insertAdjacentHTML('beforeend', nuovaCard);
+            attivaContentEditableSuTutti();
+        }
+
+        function aggiungiCardZona() {
+            let grid = document.getElementById("dynamic-grid-zones");
+            let timestampId1 = "txt-zona-dyn-pos-" + Date.now();
+            let timestampId2 = "txt-zona-dyn-desc-" + Date.now();
+            let nuovaCard = `
+                <div class="zone-card" style="position:relative;">
+                    <h4>Nuovo Punto Operativo</h4>
+                    <p id="${timestampId1}"><strong>Posizione:</strong> Inserisci Coordinate</p>
+                    <p class="zone-desc" id="${timestampId2}">Descrizione dei compiti logistici o di pattuglia per la zona.</p>
+                    <button class="btn-delete-card" onclick="this.parentElement.remove()">X</button>
+                </div>
+            `;
+            grid.insertAdjacentHTML('beforeend', nuovaCard);
+            attivaContentEditableSuTutti();
+        }
+
+        // CREAZIONE INTERE SEZIONI DA ZERO
+        function creaNuovaSezioneDinamica() {
+            let titoloInput = document.getElementById("new-sec-title").value.trim();
+            if(!titoloInput) {
+                alert("Inserisci un titolo per la nuova sezione!");
+                return;
+            }
+            let sectionId = "sec-custom-" + Date.now();
+            let navContainer = document.getElementById("nav-links-container");
+            let sectionsContainer = document.getElementById("custom-sections-container");
+
+            // 1. Aggiungi voce al menu di navigazione superiore
+            let nuovaVoceNav = `<li><a href="#${sectionId}">${titoloInput}</a></li>`;
+            navContainer.insertAdjacentHTML('beforeend', nuovaVoceNav);
+
+            // 2. Crea la struttura della sezione card
+            let nuovaSezioneHtml = `
+                <section id="${sectionId}" class="section-card custom-admin-section" style="position:relative;">
+                    <h2><span class="gold-text">//</span> ${titoloInput.toUpperCase()}</h2>
+                    <div class="custom-section-content" id="txt-custom-content-${Date.now()}">
+                        Scrivi qui il contenuto personalizzato della nuova sezione. Puoi usare testi normali o elenchi.
+                    </div>
+                    <button class="btn-delete-section" onclick="rimuoviSezioneCompleta('${sectionId}', this)">Elimina Intera Sezione</button>
+                </section>
+            `;
+            sectionsContainer.insertAdjacentHTML('beforeend', nuovaSezioneHtml);
+            
+            // Svuota l'input e aggiorna i permessi di scrittura
+            document.getElementById("new-sec-title").value = "";
+            attivaContentEditableSuTutti();
+            alert(`Sezione "${titoloInput}" creata! Scorri la pagina per scriverci dentro.`);
+        }
+
+        function rimuoviSezioneCompleta(sectionId, bottone) {
+            if(confirm("Sei sicuro di voler eliminare definitivamente questa sezione e la sua voce nel menu?")) {
+                // Rimuove la sezione
+                bottone.parentElement.remove();
+                // Rimuove il link corrispondente nella navbar
+                let linkNav = document.querySelector(`.nav-links a[href="#${sectionId}"]`);
+                if(linkNav) linkNav.parentElement.remove();
+            }
+        }
+
+        // GESTIONE DEL SALVATAGGIO GENERALE
+        function salvaTutto() {
+            // 1. Salva i testi singoli standard statici
+            const campiModificabili = document.querySelectorAll("[id^='txt-']");
+            campiModificabili.forEach(el => {
+                localStorage.setItem(el.id, el.innerHTML);
             });
-            alert("Tutti i testi sono stati salvati con successo nel browser!");
+
+            // 2. Salva l'intera struttura interna dei moduli in cui l'admin può aggiungere/rimuovere nodi
+            let htmlRanks = document.getElementById("dynamic-grid-ranks").innerHTML;
+            let htmlZones = document.getElementById("dynamic-grid-zones").innerHTML;
+            let htmlCustomSections = document.getElementById("custom-sections-container").innerHTML;
+            let htmlNavLinks = document.getElementById("nav-links-container").innerHTML;
+
+            localStorage.setItem("html-grid-ranks", htmlRanks);
+            localStorage.setItem("html-grid-zones", htmlZones);
+            localStorage.setItem("html-custom-sections", htmlCustomSections);
+            localStorage.setItem("html-nav-links", htmlNavLinks);
+
+            alert("Sito Aggiornato! Tutte le nuove righe, sezioni e testi modificati sono stati salvati nella memoria locale.");
         }
 
         function logoutAdmin() {
             sessionStorage.removeItem("isAdmin");
-            alert("Uscita effettuata. Ricarico la pagina.");
             window.location.reload();
         }
     </script>
